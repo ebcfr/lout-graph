@@ -1,6 +1,6 @@
 # An slightly modify graph module
 
-This project provides a document for the Lout typesetting system (lout.sourceforge.net).
+This project provides a document for the Lout typesetting system (https://savannah.nongnu.org/projects/lout/).
 
 It contains experiences on a slightly modified "graph" module.
 
