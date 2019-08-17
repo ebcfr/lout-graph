@@ -15,21 +15,21 @@ errordict begin
    /handleerror
    {
       {  /Times-Roman findfont 8 pt scalefont setfont
-	 0 setgray 4 pt 4 pt moveto
-	 $error /errorname get
-	 dup lgraphdict exch known
-	 { lgraphdict exch get }
-	 { 30 string cvs } ifelse
-	 show
-	 (  Command: ) show
-	 $error /command get 30 string cvs show
+         0 setgray 4 pt 4 pt moveto
+         $error /errorname get
+         dup lgraphdict exch known
+         { lgraphdict exch get }
+         { 30 string cvs } ifelse
+         show
+         (  Command: ) show
+         $error /command get 30 string cvs show
       } stopped {} if
       showpage stop
    } def
 end
 
-/lgraphdebugposy 432 def
-/lgraphdebugposx 72 def
+/lgraphdebugposy 730 def
+/lgraphdebugposx 20 def
 
 % - lgraphdebugnextline -
 /lgraphdebugnextline
@@ -78,8 +78,8 @@ end
       (begin dict) show
       lgraphdebugbeginindent
       {
-	lgraphdebugnextline
-	pop 100 string cvs show
+        lgraphdebugnextline
+        pop 100 string cvs show
       } forall
       lgraphdebugendindent
       lgraphdebugnextline
@@ -90,12 +90,12 @@ end
       {
         (begin array) show
         lgraphdebugbeginindent
-	{
-	  lgraphdebugnextline
-	  100 string cvs show
-	} forall
-	lgraphdebugendindent
-	lgraphdebugnextline
+        {
+          lgraphdebugnextline
+          100 string cvs show
+        } forall
+        lgraphdebugendindent
+        lgraphdebugnextline
         (end array) show
       }
       {
@@ -547,6 +547,17 @@ lgraphdict begin
 % - filledcircle -
 /filledcircle { xcurr ycurr trpoint symbolsize symbollinewidth dofilledcircle } def
 
+% ycomb: show a comb tooth ended by a filledcircle
+% NB symbollinewidth is only used for the comb
+% <x> <y> <symbolsize> <symbollinewidth> dofilledcircle -
+/ycomb {
+	/yorig yaxis false eq {ymin}{yaxis} ifelse def
+	symbollinewidth setlinewidth
+	newpath
+	xcurr yorig trpoint moveto xcurr ycurr trpoint lineto stroke
+	xcurr ycurr trpoint symbolsize symbollinewidth dofilledcircle
+} def
+
 % dotriangle: show an open triangle with a given symbolsize and symbollinewidth
 % NB symbolsize is reduced by half the line width to get size exactly right
 % <x> <y> <symbolsize> <symbollinewidth> dotriangle -
@@ -681,6 +692,21 @@ lgraphdict begin
   3 1 roll pop pop
 } def
 
+/offs 0 def
+/prtn
+{ gsave
+  dup 0 offs moveto 20 string cvs show
+  /offs offs 10 pt add def
+  grestore
+} def
+
+/prts
+{ gsave
+  dup 0 offs moveto 20 show
+  /offs offs 10 pt add def
+  grestore
+} def
+
 % lgen: generate one label automatically
 % num lgen num string
 /lgen { dup 20 string cvs } def
@@ -692,124 +718,245 @@ lgraphdict begin
   (^) strconcat exch strconcat
 } def
 
-
-% printxtick: print one x tick
-% xpos printxtick -
-/printxtick
-{ newpath
-  yleft trpoint moveto 0 yextra neg rmoveto
-  0 xticklength neg rlineto [] 0 setdash stroke
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% printxsubgrid: print one x tick without a label
+% xpos printxsubgrid -
+/printxsubgrid
+{
+  xgrid {dup gsave 0.6 setgray 0.2 pt setlinewidth
+    newpath
+    yleft trpoint moveto 0 yextra neg rmoveto
+    yright trpoint lineto 0 yextra rlineto stroke grestore
+  }
+  {pop} ifelse
 } def
 
-% printxgrid: print one x grid line
-% xpos printxgrid -
+% printxgrid: print one x label
+% (xlabel) xpos printxgrid -
 /printxgrid
-{ dup newpath
+{ xgrid {dup gsave 0.6 setgray newpath
   yleft trpoint moveto 0 yextra neg rmoveto
-  yright trpoint lineto 0 yextra rlineto [] 0 setdash stroke
+  yright trpoint lineto 0 yextra rlineto stroke grestore pop}
+  {pop pop} ifelse
+} def
+
+% printysubgrid: print one y tick
+% ypos printysubgrid -
+/printysubgrid
+{
+  ygrid {dup gsave 0.6 setgray 0.2 pt setlinewidth newpath
+    xleft exch trpoint moveto xextra neg 0 rmoveto
+    xright exch trpoint lineto xextra 0 rlineto stroke
+    grestore
+  } 
+  {pop} ifelse
+} def
+
+% printygrid: print one y label
+% (ylabel) ypos printygrid -
+/printygrid
+{ ygrid {dup gsave 0.6 setgray newpath
+    xleft exch trpoint moveto xextra neg 0 rmoveto
+    xright exch trpoint lineto xextra 0 rlineto stroke
+    grestore pop
+  }
+  {pop pop} ifelse
+} def
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% printxsubtick: print one x tick without a label
+% xpos printxsubtick -
+/printxsubtick
+{
+  xgrid {dup dup gsave 0.6 setgray 0.2 pt setlinewidth
+    newpath yleft trpoint moveto 0 yextra neg rmoveto
+    yright trpoint lineto 0 yextra rlineto stroke grestore
+  } if
+  newpath yleft trpoint moveto 0 yextra neg rmoveto
+  0 xticklength 2 div neg rlineto [] 0 setdash stroke
 } def
 
 % printxlabel: print one x label
 % (xlabel) xpos printxlabel -
 /printxlabel
-{ yleft trpoint moveto 0 yextra neg rmoveto
-  0 xticklength neg rmoveto 0 0.9 ft neg rmoveto
-  xlog 1 gt { 0 0.3 ft neg rmoveto } if
-  dup expstringwidth -2 div 0 rmoveto expstringshow
+{ xgrid {dup dup gsave 0.6 setgray
+    newpath yleft trpoint moveto 0 yextra neg rmoveto
+    yright trpoint lineto 0 yextra rlineto stroke grestore
+  } if
+  newpath yleft trpoint moveto 0 yextra neg rmoveto
+  0 xticklength neg rlineto 0 gsave stroke grestore 0.9 ft neg rmoveto
+  xlabel {
+    xlog 1 gt { 0 0.3 ft neg rmoveto } if
+    dup expstringwidth -2 div 0 rmoveto expstringshow
+  } {pop} ifelse
 } def
 
-% printytick: print one y tick
-% ypos printytick -
-/printytick
-{ newpath
-  xleft exch trpoint moveto xextra neg 0 rmoveto
-  yticklength neg 0 rlineto [] 0 setdash stroke
-} def
-
-% printygrid: print one y grid line
-% ypos printygrid -
-/printygrid
-{ dup newpath
-  xleft exch trpoint moveto xextra neg 0 rmoveto
-  xright exch trpoint lineto xextra 0 rlineto [] 0 setdash stroke
+% printysubtick: print one y tick
+% ypos printysubtick -
+/printysubtick
+{
+  ygrid {dup dup gsave 0.6 setgray 0.2 pt setlinewidth
+    newpath xleft exch trpoint moveto xextra neg 0 rmoveto
+    xright exch trpoint lineto xextra 0 rlineto stroke grestore
+  } if
+  newpath xleft exch trpoint moveto xextra neg 0 rmoveto
+  yticklength 2 div neg 0 rlineto [] 0 setdash stroke
 } def
 
 % printylabel: print one y label
 % (ylabel) ypos printylabel -
 /printylabel
-{ xleft exch trpoint moveto xextra neg 0 rmoveto
-  yticklength neg 0 rmoveto -0.3 ft -0.3 ft rmoveto
-  dup expstringwidth neg 0 rmoveto expstringshow
+{ ygrid {dup dup gsave 0.6 setgray
+    newpath xleft exch trpoint moveto xextra neg 0 rmoveto
+    xright exch trpoint lineto xextra 0 rlineto stroke grestore
+  } if
+  newpath xleft exch trpoint moveto xextra neg 0 rmoveto
+  yticklength neg 0 rlineto gsave stroke grestore
+  ylabel {
+    -0.3 ft -0.3 ft rmoveto
+    dup expstringwidth neg 0 rmoveto expstringshow
+  } {pop} ifelse
 } def
 
-% printrtick: print one r tick
-% ypos printrtick -
-/printrtick
+% printrsubtick: print one r tick
+% ypos printrsubtick -
+/printrsubtick
 { newpath
   xright exch trpoint moveto xextra 0 rmoveto
-  rticklength 0 rlineto [] 0 setdash stroke
+  rticklength 2 div 0 rlineto [] 0 setdash stroke
 } def
 
 % printrlabel: print one r label
 % (rlabel) ypos printrlabel -
 /printrlabel
 { xright exch trpoint moveto xextra 0 rmoveto
-  rticklength 0 rmoveto  0.3 ft -0.3 ft rmoveto
-  expstringshow
+  rticklength 0 rlineto gsave stroke grestore
+  ylabel {
+    0.3 ft -0.3 ft rmoveto expstringshow
+  } {pop} ifelse
 } def
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% printxaxistick: print one x axis tick
+% xpos printxaxistick -
+/printxaxissubtick
+{ xgrid
+  { dup dup gsave 0.6 setgray 0.2 pt setlinewidth newpath
+    yleft trpoint moveto 0 yextra neg rmoveto
+    yright trpoint lineto 0 yextra rlineto stroke grestore
+  } if
+  newpath
+  yaxis trpoint moveto 0 xticklength -4 div rmoveto
+  0 xticklength 2 div rlineto [] 0 setdash stroke
+} def
+
+% printxaxislabel: print one x axis label
+% (xlabel) xpos printxaxislabel -
+/printxaxislabel
+{ xgrid
+  { dup dup gsave 0.6 setgray newpath
+    yleft trpoint moveto 0 yextra neg rmoveto
+    yright trpoint lineto 0 yextra rlineto stroke grestore
+  } if
+  dup
+  newpath
+  yaxis trpoint moveto
+  0 xticklength -2 div rmoveto gsave 0 xticklength rlineto stroke grestore 0 0.9 ft neg rmoveto
+  xlabel {
+    xaxis eq yaxis dup yleft ne exch yright ne and and {pop}{
+      yaxis yright ne
+      { xlog 1 gt { 0 0.3 ft neg rmoveto } if
+        dup expstringwidth -2 div 0 rmoveto expstringshow
+      }
+      { xlog 1 gt { 0 0.2 ft rmoveto } if
+        dup expstringwidth -2 div 1.6 ft rmoveto expstringshow
+      } ifelse
+    } ifelse
+  }
+  { pop pop
+  } ifelse
+} def
+
+% printyaxissubtick: print one y axis subtick
+% ypos printyaxissubtick -
+/printyaxissubtick
+{ ygrid
+  {dup dup gsave 0.6 setgray 0.2 pt setlinewidth
+    newpath
+    xleft exch trpoint moveto xextra neg 0 rmoveto
+    xright exch trpoint lineto xextra 0 rlineto stroke grestore
+  } if
+  newpath xaxis exch trpoint moveto
+  yticklength -4 div 0 rmoveto
+  yticklength 2 div 0 rlineto [] 0 setdash stroke
+} def
+
+% printyaxislabel: print one y axis label
+% (ylabel) ypos printyaxislabel -
+/printyaxislabel
+{ ygrid {dup dup gsave 0.6 setgray
+    newpath
+    xleft exch trpoint moveto xextra neg 0 rmoveto
+    xright exch trpoint lineto xextra 0 rlineto stroke grestore
+  } if
+  dup newpath
+  xaxis exch trpoint moveto
+  yticklength -2 div 0 rmoveto gsave yticklength 0 rlineto stroke grestore -0.3 ft -0.3 ft rmoveto
+  ylabel {
+    yaxis eq xleft xaxis ne and {pop}{dup expstringwidth neg 0 rmoveto expstringshow} ifelse
+  } {pop pop} ifelse
+} def
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % printticks: print ticks and labels
 % /tickproc /labelproc [ tickandlabeldata ] min printticks -
 /printticks
-{ /prev exch def
-  { dup type dup dup /integertype eq exch /realtype eq or
-    { pop dup /prev exch def 2 index cvx exec
+{ pop
+  /tickstate 0 def
+  { tickstate 0 eq
+    { 
+      /tickstate 1 def
     }
-    { /stringtype eq
-      { prev 2 index cvx exec
+    { dup type /stringtype eq
+      {
+        exch 2 index cvx exec
+        /tickstate 0 def
       }
-      { pop
+      {
+        exch 3 index cvx exec
       } ifelse
     } ifelse
   } forall
   pop pop
 } def
 
-
-% printxaxistick: print one x axis tick
-% xpos printxaxistick -
-/printxaxistick
-{ newpath
-  yaxis trpoint moveto 0 xticklength -2 div rmoveto
-  0 xticklength rlineto [] 0 setdash stroke
+% printticks: print ticks and labels
+% /tickproc /labelproc [ tickandlabeldata ] min printticks -
+/__printticks
+{ /prev exch def
+  /tickstate 0 def
+       (printxticks-1) 10 lgraphdebugprint
+  { tickstate prtn 0 eq
+    { 
+(printxticks0) 10 lgraphdebugprint
+      /tickstate 1 def
+    }
+    { dup type prtn /stringtype eq
+      {
+        exch prtn 2 index cvx exec
+        /tickstate 0 def
+      }
+      {
+%       (printxticks1) 10 lgraphdebugprint
+        exch prtn 3 index (printxticks1) 10 lgraphdebugprint prtn cvx exec
+%        /prev exch def
+      } ifelse
+    } ifelse
+  } forall
+  pop pop
 } def
 
-% printxaxislabel: print one x axis label
-% (xlabel) xpos printxaxislabel -
-/printxaxislabel
-{ yaxis trpoint moveto
-  0 xticklength -2 div rmoveto 0 0.9 ft neg rmoveto
-  xlog 1 gt { 0 0.3 ft neg rmoveto } if
-  dup expstringwidth -2 div 0 rmoveto expstringshow
-} def
-
-% printyaxistick: print one y axis tick
-% ypos printyaxistick -
-/printyaxistick
-{ newpath
-  xaxis exch trpoint moveto
-  yticklength -2 div 0 rmoveto
-  yticklength 0 rlineto [] 0 setdash stroke
-} def
-
-% printyaxislabel: print one y axis label
-% (ylabel) ypos printyaxislabel -
-/printyaxislabel
-{ xaxis exch trpoint moveto
-  yticklength -2 div 0 rmoveto -0.3 ft -0.3 ft rmoveto
-  dup expstringwidth neg 0 rmoveto expstringshow
-} def
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % <val> minmax -
 % perform minv := min(minv, val); maxv := max(maxv, val)
@@ -822,9 +969,9 @@ lgraphdict begin
     { dup minv lt
       { /minv exch def }
       { dup maxv gt
-	{ /maxv exch def }
-	{ pop }
-	ifelse
+        { /maxv exch def }
+        { pop }
+        ifelse
       } ifelse
     } ifelse
   } ifelse
@@ -844,7 +991,7 @@ lgraphdict begin
 % true if the number has an integral value
 /integral { dup round eq } def
 
-% ticksep ticks xory alldata minval maxval axis base ticksandlimits ticks min max base
+% subticksep ticksep ticks xory alldata minval maxval axis base ticksandlimits ticks min max base
 % ticksandlimits: sort out value of x or y ticks and limits and log base
 /ticksandlimits
 { /base exch def
@@ -874,17 +1021,17 @@ lgraphdict begin
       { /minv 2 minv mul def /maxv 0 def
       }
       { minv 0 eq
-	{ /minv -1 def /maxv 1 def
-	}
-	{ /minv 0 def /maxv 2 maxv mul def
-	} ifelse
+        { /minv -1 def /maxv 1 def
+        }
+        { /minv 0 def /maxv 2 maxv mul def
+        } ifelse
       } ifelse
     } if
   } ifelse
 
   % invent ticks if undefined
   ticksundef
-  { pop /ticksep exch def
+  { pop /ticksep exch def /nsubtick exch def
 
     % if base is reasonable and minv is positive, logarithmic ticks
     base 1 gt minv 0 gt and
@@ -899,25 +1046,30 @@ lgraphdict begin
       /maxv base logmaxv exp def
 
       % ticks := [ base**logminv, ... , base**logmaxv ]
-      [ logminv 1 logmaxv
-	{ dup base exch exp
-	  exch base exch loglgen
-	} for
+      [ logminv 1 logmaxv 1 sub
+        { dup base exch exp dup /dec exch def
+          exch base exch loglgen
+          2 1 9 {
+            dec mul
+          } for
+        } for
+        logmaxv dup base exch exp
+        exch base exch loglgen
       ]
     }
     { % non-logarithmic ticks
       {
         % fix tick separation if undefined (0) or too small
-	/base 0 def
+        /base 0 def
         /delta maxv minv sub def
         ticksep delta 30 div le
         { /ticksep 10 delta log 1 sub ceiling exp def
-	  ticksep delta 2 div ge
-	  { /ticksep ticksep 2 div def }
-	  { ticksep delta 5 div lt
-	    { /ticksep 2 ticksep mul def
-	    } if
-	  } ifelse
+          ticksep delta 2 div ge
+          { /ticksep ticksep 2 div def }
+          { ticksep delta 5 div lt
+            { /ticksep 2 ticksep mul def
+            } if
+          } ifelse
         } if
 
         % adjust minv and maxv to be multiples of ticksep
@@ -935,25 +1087,40 @@ lgraphdict begin
       % if minv, maxv, and ticksep are all integral, set "makeint" to true
       /makeint minv integral maxv integral ticksep integral and and def
 
-      % ticks := [ minv, minv+ticksep, ... , maxv ]
-      [ 0 1 delta ticksep div round
-	{ ticksep mul minv add makeint { cvi } if lgen }
-	for
-      ]
+      % if nsubtick is defined (!= 0 or 1), add subticks
+      nsubtick 1 gt {
+        /ticksep ticksep nsubtick div def
+        % ticks := [ minv, minv+ticksep, ... , maxv ]
+        [ 0 1 delta ticksep div round
+          { dup ticksep mul minv add
+            exch nsubtick mod 0 eq { makeint { cvi } if lgen } if
+          }
+          for
+        ]
+      }
+      {
+        % ticks := [ minv, minv+ticksep, ... , maxv ]
+        [ 0 1 delta ticksep div round
+          { ticksep mul minv add makeint { cvi } if lgen }
+          for
+        ]
+      } ifelse
     } ifelse
   }
-  { exch pop
+  { exch pop exch pop
   } ifelse
   minv maxv base
 } def
 
 % xset: set up all data for x axis, including limits and ticks
-% xticksep xticks 0 alldata xmin xmax xlog xextra xdecr xaxis xticklength xset -
+% xticksep xticks 0 alldata xmin xmax xlog xgrid xextra xdecr xaxis xticklength xset -
 /xset
 { /xticklength exch def
   /xaxis exch def
   /xdecr exch def
   /xextra exch def
+  /xgrid exch def
+  /xlabel exch def
   xaxis exch ticksandlimits
   /xlog exch def /xmax exch def /xmin exch def /xticks exch def
   /xleft xdecr { xmax } { xmin } ifelse def
@@ -963,12 +1130,14 @@ lgraphdict begin
 } def
 
 % yset: set up all data for y axis, including limits and yticks
-% yticksep yticks 0 alldata ymin ymax ylog yextra ydecr yaxis yticklength yset -
+% yticksep yticks 0 alldata ymin ymax ylog ygrid yextra ydecr yaxis yticklength yset -
 /yset
 { /yticklength exch def
   /yaxis exch def
   /ydecr exch def
   /yextra exch def
+  /ygrid exch def
+  /ylabel exch def
   yaxis exch ticksandlimits
   /ylog exch def /ymax exch def /ymin exch def /yticks exch def
   /yleft ydecr { ymax } { ymin } ifelse def
@@ -999,27 +1168,34 @@ lgraphdict begin
   /rticks [] def
 } def
 
-% framestyle: print a frame around the graph
-/framestyle
+% drawframe: print a frame around the graph
+/drawframe
 { 0 0 moveto xsize 0 lineto xsize ysize lineto
   0 ysize lineto closepath stroke
-  /printxtick /printxlabel xticks xleft printticks
-  /printytick /printylabel yticks ymin printticks
-  /printrtick /printrlabel rticks ymin printticks
+} def
+
+% framestyle: print label and ticks, subticks (without label)
+%   around the graph, and an optional grid
+/framestyle
+{
+  /printxsubtick /printxlabel xticks xleft printticks
+  /printysubtick /printylabel yticks ymin printticks
+  /printrsubtick /printrlabel rticks ymin printticks
 } def
 
 % gridstyle: print a frame around the graph, plus a grid
 /gridstyle
-{ 0 0 moveto xsize 0 lineto xsize ysize lineto
-  0 ysize lineto closepath stroke
-  /printxgrid /printxlabel xticks xleft printticks
-  /printygrid /printylabel yticks ymin printticks
-  /printrtick /printrlabel rticks ymin printticks
+{
+  /printxsubtick /printxlabel xticks xleft printticks
+  /printysubtick /printylabel yticks ymin printticks
+  /printrsubtick /printrlabel rticks ymin printticks
 } def
 
-% nonestyle: print nothing around the graph
+% nonestyle: print nothing but an optional grid
 /nonestyle
 {
+  /printxsubgrid /printxgrid xticks xleft printticks
+  /printysubgrid /printygrid yticks ymin printticks
 } def
 
 % axesstyle: print axes for the graph (unless axis values missing)
@@ -1027,10 +1203,11 @@ lgraphdict begin
 {
   xaxis false eq yaxis false eq or
   { framestyle }
-  { xaxis yaxis trpoint dup 0 exch moveto xsize exch lineto
+  {
+    /printxaxissubtick /printxaxislabel xticks xleft printticks
+    /printyaxissubtick /printyaxislabel yticks ymin printticks
+    xaxis yaxis trpoint dup 0 exch moveto xsize exch lineto
     dup 0 moveto ysize lineto stroke
-    /printxaxistick /printxaxislabel xticks xleft printticks
-    /printyaxistick /printyaxislabel yticks ymin printticks
   } ifelse
 } def
 
@@ -1048,19 +1225,20 @@ lgraphdict begin
     dopaint
     { data length 4 ge
       {
-	gsave
-	initrun
-	newpath
-	data 0 get ymin trpoint yextra sub moveto
-	0 2 data length 2 sub
-	{ dup 1 add
-	  data exch get /ycurr exch def
-	  data exch get /xcurr exch def
-	  xcurr ycurr trpoint lineto
-	} for
-	data dup length 2 sub get ymin trpoint yextra sub lineto
-	closepath texture fill
-	grestore
+        gsave
+        initrun
+        /yorig yaxis false eq {ymin}{yaxis} ifelse def
+        newpath
+        data 0 get yorig trpoint moveto
+        0 2 data length 2 sub
+        { dup 1 add
+          data exch get /ycurr exch def
+          data exch get /xcurr exch def
+          xcurr ycurr trpoint lineto
+        } for
+        data dup length 2 sub get yorig trpoint lineto
+        closepath texture fill
+        grestore
       } if
     } if
     initrun
@@ -1071,20 +1249,21 @@ lgraphdict begin
       points
       data length 4 ge
       { 2 2 data length 2 sub
-	{ /xprev xcurr def
+        { /xprev xcurr def
           /yprev ycurr def
-	  dup dup 2 eq /firstpair exch def
-	  data length 2 sub eq /lastpair exch def
-	  dup 1 add
+          dup dup 2 eq /firstpair exch def
+          data length 2 sub eq /lastpair exch def
+          dup 1 add
           data exch get /ycurr exch def
           data exch get /xcurr exch def
-	  pairs
-	  points
-	} for
+          pairs
+          points
+        } for
       } if
     } if
     grestore
   } forall
+  /offs 0 def
 } def
 
 end

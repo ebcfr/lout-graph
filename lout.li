@@ -1,0 +1,76 @@
+00 Basser Lout Version 3.40 (June 2013) database index file
+00symbol 1 @BasicSetup @DocumentSetup @TheoremCounterMarker
+00symbol 10 @BasicSetup @DocumentSetup @FigureCounterMarker
+00symbol 11 @BasicSetup @DocumentSetup @TablePrefixMarker
+00symbol 12 @BasicSetup @DocumentSetup @TableCounterMarker
+00symbol 13 @BasicSetup @DocumentSetup @FloaterPrefixMarker
+00symbol 14 @BasicSetup @DocumentSetup @FloaterCounterMarker
+00symbol 15 @BasicSetup @PageMarker
+00symbol 16 @BasicSetup @DocumentSetup @FootNoteCounterMarker
+00symbol 17 @BasicSetup @DocumentSetup @Runner
+00symbol 2 @BasicSetup @DocumentSetup @DefinitionCounterMarker
+00symbol 3 @BasicSetup @DocumentSetup @ClaimCounterMarker
+00symbol 4 @BasicSetup @DocumentSetup @PropositionCounterMarker
+00symbol 5 @BasicSetup @DocumentSetup @LemmaCounterMarker
+00symbol 6 @BasicSetup @DocumentSetup @CorollaryCounterMarker
+00symbol 7 @BasicSetup @DocumentSetup @ExampleCounterMarker
+00symbol 8 @BasicSetup @NumDispCounterMarker
+00symbol 9 @BasicSetup @DocumentSetup @FigurePrefixMarker
+1&23.2874.ex_doc.1	0	00021	0	1	ex_doc
+1&23.2874.ex_python.1	0	00001	0	1	ex_python
+10&23.3785.ex_doc.1	0	00022	1537	114	ex_doc
+10&23.3785.ex_python.1	0	00010	1564	114	ex_python
+11&23.4023.ex_doc.1	0	00023	1619	121	ex_doc
+11&23.4023.ex_python.1	0	00011	1649	121	ex_python
+12&23.4031.ex_doc.1	0	00024	1698	128	ex_doc
+12&23.4031.ex_python.1	0	00012	1731	128	ex_python
+13&23.4259.ex_doc.1	0	00025	1779	135	ex_doc
+13&23.4259.ex_python.1	0	00013	1815	135	ex_python
+14&23.4267.ex_doc.1	0	00026	1860	142	ex_doc
+14&23.4267.ex_python.1	0	00014	1899	142	ex_python
+15&20.1276.ex_doc.1	0	00027	1943	149	ex_doc
+15&20.1276.ex_doc.10	0	00028	4513	368	ex_doc
+15&20.1276.ex_doc.2	0	00029	2385	188	ex_doc
+15&20.1276.ex_doc.3	0	00030	2648	210	ex_doc
+15&20.1276.ex_doc.4	0	00031	2917	233	ex_doc
+15&20.1276.ex_doc.5	0	00032	3180	255	ex_doc
+15&20.1276.ex_doc.6	0	00033	3449	278	ex_doc
+15&20.1276.ex_doc.7	0	00034	3712	300	ex_doc
+15&20.1276.ex_doc.8	0	00035	3981	323	ex_doc
+15&20.1276.ex_doc.9	0	00036	4244	345	ex_doc
+15&20.1276.ex_python.1	0	00015	1985	149	ex_python
+15&last.page	0	00020	1985	149	ex_python
+15&last.page	0	00037	4513	368	ex_doc
+16&23.1565.ex_doc.1	0	00038	2239	175	ex_doc
+16&23.1565.ex_doc.10	0	00039	4696	383	ex_doc
+16&23.1565.ex_doc.2	0	00040	2564	203	ex_doc
+16&23.1565.ex_doc.3	0	00041	2833	226	ex_doc
+16&23.1565.ex_doc.4	0	00042	3096	248	ex_doc
+16&23.1565.ex_doc.5	0	00043	3365	271	ex_doc
+16&23.1565.ex_doc.6	0	00044	3628	293	ex_doc
+16&23.1565.ex_doc.7	0	00045	3897	316	ex_doc
+16&23.1565.ex_doc.8	0	00046	4160	338	ex_doc
+16&23.1565.ex_doc.9	0	00047	4429	361	ex_doc
+16&23.1565.ex_python.1	0	00016	2284	175	ex_python
+17&23.966.ex_doc.1	0	00048	4846	396	ex_doc
+17&23.966.ex_doc.2	0	00049	2323	182	ex_doc
+17&23.966.ex_doc.3	0	00050	4781	390	ex_doc
+17&23.966.ex_python.1	0	00019	2504	194	ex_python
+17&23.966.ex_python.2	0	00017	2371	182	ex_python
+17&23.966.ex_python.3	0	00018	2436	188	ex_python
+2&23.2933.ex_doc.1	0	00051	372	29	ex_doc
+2&23.2933.ex_python.1	0	00002	375	29	ex_python
+3&23.2988.ex_doc.1	0	00052	520	39	ex_doc
+3&23.2988.ex_python.1	0	00003	526	39	ex_python
+4&23.3043.ex_doc.1	0	00053	658	49	ex_doc
+4&23.3043.ex_python.1	0	00004	667	49	ex_python
+5&23.3098.ex_doc.1	0	00054	808	59	ex_doc
+5&23.3098.ex_python.1	0	00005	820	59	ex_python
+6&23.3153.ex_doc.1	0	00055	946	69	ex_doc
+6&23.3153.ex_python.1	0	00006	961	69	ex_python
+7&23.3208.ex_doc.1	0	00056	1092	79	ex_doc
+7&23.3208.ex_python.1	0	00007	1110	79	ex_python
+8&20.1475.ex_doc.1	0	00057	1234	89	ex_doc
+8&20.1475.ex_python.1	0	00008	1255	89	ex_python
+9&23.3777.ex_doc.1	0	00058	1457	107	ex_doc
+9&23.3777.ex_python.1	0	00009	1481	107	ex_python

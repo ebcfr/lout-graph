@@ -5,6 +5,8 @@
 #   Jeffrey H. Kingston                                                       #
 #   5 February 1999                                                           #
 #   21 June 2013                                                              #
+#   Eric Bouchare                                                             #
+#   16 August 2019                                                            #
 #                                                                             #
 #   This file has been placed in the public domain by its author.             #
 #                                                                             #
@@ -20,7 +22,8 @@
 #                                                                             #
 ###############################################################################
 
-@SysInclude { graphf }
+#@SysInclude { graphf }
+@Include { graphf }
 
 
 ###############################################################################
@@ -42,10 +45,12 @@
 
   # style		{ frame			}
   # font		{ 			}
-  # named xorigin  	{ none			}
-  # named yorigin  	{ none			}
-  # named xlog     	{ none			}
-  # named ylog     	{ none			}
+  # grid		{ no			}
+  # label		{ yes			}
+  # xorigin  	{ none			}
+  # yorigin  	{ none			}
+  # xlog     	{ none			}
+  # ylog     	{ none			}
   # width		{ 6.0c			}
   # height		{ 4.0c			}
   # xextra		{ auto			}
@@ -68,6 +73,9 @@
   # xticksep 		{ none			}
   # yticksep 		{ none			}
   # rticksep 		{ none			}
+  # xnsubtick 	{ none			}
+  # ynsubtick 	{ none			}
+  # rnsubtick 		{ none			}
   # xticks		{ auto 			}
   # yticks		{ auto 			}
   # rticks		{			}
