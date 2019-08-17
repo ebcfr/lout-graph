@@ -1,4 +1,4 @@
-# An slightly modify graph module
+# A slightly modified graph module
 
 This project provides a document for the Lout typesetting system (https://savannah.nongnu.org/projects/lout/).
 
