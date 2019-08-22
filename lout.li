@@ -1,0 +1,56 @@
+00 Basser Lout Version 3.40 (June 2013) database index file
+00symbol 1 @BasicSetup @DocumentSetup @TheoremCounterMarker
+00symbol 10 @BasicSetup @DocumentSetup @FigureCounterMarker
+00symbol 11 @BasicSetup @DocumentSetup @TablePrefixMarker
+00symbol 12 @BasicSetup @DocumentSetup @TableCounterMarker
+00symbol 13 @BasicSetup @DocumentSetup @FloaterPrefixMarker
+00symbol 14 @BasicSetup @DocumentSetup @FloaterCounterMarker
+00symbol 15 @BasicSetup @PageMarker
+00symbol 16 @BasicSetup @DocumentSetup @FootNoteCounterMarker
+00symbol 17 @BasicSetup @DocumentSetup @Runner
+00symbol 2 @BasicSetup @DocumentSetup @DefinitionCounterMarker
+00symbol 3 @BasicSetup @DocumentSetup @ClaimCounterMarker
+00symbol 4 @BasicSetup @DocumentSetup @PropositionCounterMarker
+00symbol 5 @BasicSetup @DocumentSetup @LemmaCounterMarker
+00symbol 6 @BasicSetup @DocumentSetup @CorollaryCounterMarker
+00symbol 7 @BasicSetup @DocumentSetup @ExampleCounterMarker
+00symbol 8 @BasicSetup @NumDispCounterMarker
+00symbol 9 @BasicSetup @DocumentSetup @FigurePrefixMarker
+1&23.2874.ex_doc.1	0	00001	0	1	ex_doc
+10&23.3785.ex_doc.1	0	00010	1537	114	ex_doc
+11&23.4023.ex_doc.1	0	00011	1619	121	ex_doc
+12&23.4031.ex_doc.1	0	00012	1698	128	ex_doc
+13&23.4259.ex_doc.1	0	00013	1779	135	ex_doc
+14&23.4267.ex_doc.1	0	00014	1860	142	ex_doc
+15&20.1276.ex_doc.1	0	00015	1943	149	ex_doc
+15&20.1276.ex_doc.10	0	00034	4513	368	ex_doc
+15&20.1276.ex_doc.2	0	00018	2385	188	ex_doc
+15&20.1276.ex_doc.3	0	00020	2648	210	ex_doc
+15&20.1276.ex_doc.4	0	00022	2917	233	ex_doc
+15&20.1276.ex_doc.5	0	00024	3180	255	ex_doc
+15&20.1276.ex_doc.6	0	00026	3449	278	ex_doc
+15&20.1276.ex_doc.7	0	00028	3712	300	ex_doc
+15&20.1276.ex_doc.8	0	00030	3981	323	ex_doc
+15&20.1276.ex_doc.9	0	00032	4244	345	ex_doc
+15&last.page	0	00038	4513	368	ex_doc
+16&23.1565.ex_doc.1	0	00016	2239	175	ex_doc
+16&23.1565.ex_doc.10	0	00035	4696	383	ex_doc
+16&23.1565.ex_doc.2	0	00019	2564	203	ex_doc
+16&23.1565.ex_doc.3	0	00021	2833	226	ex_doc
+16&23.1565.ex_doc.4	0	00023	3096	248	ex_doc
+16&23.1565.ex_doc.5	0	00025	3365	271	ex_doc
+16&23.1565.ex_doc.6	0	00027	3628	293	ex_doc
+16&23.1565.ex_doc.7	0	00029	3897	316	ex_doc
+16&23.1565.ex_doc.8	0	00031	4160	338	ex_doc
+16&23.1565.ex_doc.9	0	00033	4429	361	ex_doc
+17&23.966.ex_doc.1	0	00037	4846	396	ex_doc
+17&23.966.ex_doc.2	0	00017	2323	182	ex_doc
+17&23.966.ex_doc.3	0	00036	4781	390	ex_doc
+2&23.2933.ex_doc.1	0	00002	372	29	ex_doc
+3&23.2988.ex_doc.1	0	00003	520	39	ex_doc
+4&23.3043.ex_doc.1	0	00004	658	49	ex_doc
+5&23.3098.ex_doc.1	0	00005	808	59	ex_doc
+6&23.3153.ex_doc.1	0	00006	946	69	ex_doc
+7&23.3208.ex_doc.1	0	00007	1092	79	ex_doc
+8&20.1475.ex_doc.1	0	00008	1234	89	ex_doc
+9&23.3777.ex_doc.1	0	00009	1457	107	ex_doc

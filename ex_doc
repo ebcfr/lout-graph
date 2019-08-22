@@ -12,7 +12,7 @@
 //
 @Text @Begin
 @FullWidthRule
-@D @B{Lout Graph samples (modified "@Graph" -- @Date -- E.B.)}
+@D @B{Lout Graph samples (modified "@Graph" -- 	@Date -- E.B.)}
 @FullWidthRule
 @DP @B{Ticks, labels and grid}
 @LP @F @RawVerbatim {
@@ -224,7 +224,7 @@
 }
 @LP Here, as well, a noteworthy feature of the @F{axes} style: when the x axis is at the top of the graph, the labels are displayed above the axis, else they appeare below the axis.
 @LP
-@DP @B{ycomb data vizualisation}
+@DP @B{comb data vizualisation}
 @LP &0.5c @Graph
 	style{axes} xorigin{0} yorigin{0} label{yes}
 	xticksep{2} xnsubtick{2}
@@ -234,7 +234,7 @@
 	}
 	color{red}
 {
-	@Data points{ycomb} {
+	@Data pairs{comb} linewidth{1p} {
 		-2 0 -1 0 0 0 1 0.5 2 1 3 1.5 4 2 5 2.5
 	}
 } ||1c @F @Verbatim{
@@ -247,7 +247,7 @@
   }
   color{red}
 {
-  @Data points{ycomb} {
+  @Data pairs{comb} linewidth{1p} {
     -2 0 -1 0 0 0 1 0.5 2 1 3 1.5 4 2 5 2.5
   }
 }
@@ -261,10 +261,12 @@
 		@E at{0 3} margin{0.5f} @M{y(t) ` [@R{V}]}
 	}
 {
-	@Data points{ycomb} color{red}{
+	@Data pairs{comb} points{filledcircle} symbolsize{0.3f} linewidth{2p} color{blue}{
 		-2 0 -1 0 0 0 1 0.5 2 1 3 -1.5 4 2 5 2.5
 	}
-} ||1c {The line drawn with each point is referenced to the position of the x axis (defined by the @I{yorigin} option).}
+} ||1c {The line drawn with each point is referenced to the position of the x axis (defined by the @I{yorigin} option), or the axis defined by the @F{ymin} value defined or calculated if @F{yorigin} is not set.
+	@PP The @I{points} option allow to put a symbol associated to the point, as usual.
+}
 
 
 @LP &0.5c @Graph
@@ -272,7 +274,7 @@
 	xticksep{2} xnsubtick{2}
 	yticksep{2} ynsubtick{2}
 {
-	@Data points{ycomb} color{red}{
+	@Data pairs{comb} points{diamond} symbolsize{0.3f} color{red}{
 		-2 0 -1 0 0 0 1 0.5 2 1 3 -1.5 4 2 5 2.5
 	}
 } ||1c {Even though the @I{axes} style is not used.
@@ -283,7 +285,8 @@
   xticksep{2} xnsubtick{2}
   yticksep{2} ynsubtick{2}
 {
-  @Data points{ycomb} color{red}{
+  @Data pairs{comb} points{diamond}
+    symbolsize{0.3f} color{red}{
     -2 0 -1 0 0 0 1 0.5 2 1 3 -1.5 4 2 5 2.5
   }
 }	

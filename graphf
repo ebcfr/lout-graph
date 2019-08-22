@@ -6,7 +6,7 @@
 #  Version 1.0 (December 1993).												  #
 #  Version 1.1 (adds @GraphSetup, June 2013)								  #
 #  Jeffrey H. Kingston
-#  Version 1.2 (adds ycomb, grid, August 2019), Eric Bouchare														  #
+#  Version 1.2 (adds comb graphs, grid, August 2019), Eric Bouchare														  #
 #																			  #
 #  This	package	draws graphs, the statistical kind not the graph-theoretical  #
 #  kind.  See the User's Guide for user	info.								  #
@@ -970,24 +970,25 @@ def	@GraphSetup
 
 			def	@Pairs
 			{
-			  pairs	@Case {
-				none   @Yield {}
-				solid  @Yield {	"linesetup solid"	@IfPt "ilinesetup solid"  }
-				dashed @Yield {	"linesetup cdashed"	@IfPt "ilinesetup dashed" }
-				dotted @Yield {	"linesetup dotted"	@IfPt "ilinesetup dotted" }
-				dotdashed	  @Yield { "linesetup dotcdashed" @IfPt
-									"ilinesetup	dotdashed" }
-				dotdotdashed  @Yield { "linesetup dotdotcdashed" @IfPt
-									"ilinesetup	dotdotdashed" }
-				dotdotdotdashed	 @Yield	{ "linesetup dotdotdotcdashed" @IfPt
-									"ilinesetup	dotdotdotdashed" }
-				surfacexhisto @Yield { "surfacexhisto" }
-				surfaceyhisto @Yield { "surfaceyhisto" }
-				xhisto		  @Yield { "xhisto"	}
-				yhisto		  @Yield { "yhisto"	}
-				filledxhisto  @Yield { "filledxhisto" }
-				filledyhisto  @Yield { "filledyhisto" }
-			  }
+				pairs	@Case {
+					none 			@Yield {}
+					solid			@Yield { "linesetup solid"	@IfPt "ilinesetup solid"  }
+					dashed			@Yield { "linesetup cdashed"	@IfPt "ilinesetup dashed" }
+					dotted			@Yield { "linesetup dotted"	@IfPt "ilinesetup dotted" }
+					dotdashed		@Yield { "linesetup dotcdashed" @IfPt
+										"ilinesetup	dotdashed" }
+					dotdotdashed	@Yield { "linesetup dotdotcdashed" @IfPt
+										"ilinesetup	dotdotdashed" }
+					dotdotdotdashed	@Yield	{ "linesetup dotdotdotcdashed" @IfPt
+										"ilinesetup	dotdotdotdashed" }
+					surfacexhisto	@Yield { "surfacexhisto" }
+					surfaceyhisto	@Yield { "surfaceyhisto" }
+					xhisto			@Yield { "xhisto"	}
+					yhisto			@Yield { "yhisto"	}
+					filledxhisto	@Yield { "filledxhisto" }
+					filledyhisto	@Yield { "filledyhisto" }
+					comb			@Yield { "comb" }
+				}
 			}
 
 			def	@DataFormat

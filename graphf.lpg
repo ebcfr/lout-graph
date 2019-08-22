@@ -234,6 +234,7 @@ lgraphdict begin
   /dot 0 def
   % (Leaving linebegin) 0 debugprint
 } def
+
 % end a more complex line: <linecap> <cycle> <startpos> <stoppos> lineend -
 /lineend
 {
@@ -401,6 +402,15 @@ lgraphdict begin
   gsave texture fill grestore stroke
 } def
 
+% comb: show a comb tooth
+% - comb -
+/comb {
+	/yorig yaxis false eq {ymin}{yaxis} ifelse def
+	linewidth setlinewidth
+	newpath
+	xcurr yorig trpoint moveto xcurr ycurr trpoint lineto stroke
+} def
+
 
 % docross: show a cross with a given symbolsize and symbollinewidth
 % <x> <y> <symbolsize> <symbollinewidth> docross -
@@ -547,17 +557,6 @@ lgraphdict begin
 % - filledcircle -
 /filledcircle { xcurr ycurr trpoint symbolsize symbollinewidth dofilledcircle } def
 
-% ycomb: show a comb tooth ended by a filledcircle
-% NB symbollinewidth is only used for the comb
-% <x> <y> <symbolsize> <symbollinewidth> dofilledcircle -
-/ycomb {
-	/yorig yaxis false eq {ymin}{yaxis} ifelse def
-	symbollinewidth setlinewidth
-	newpath
-	xcurr yorig trpoint moveto xcurr ycurr trpoint lineto stroke
-	xcurr ycurr trpoint symbolsize symbollinewidth dofilledcircle
-} def
-
 % dotriangle: show an open triangle with a given symbolsize and symbollinewidth
 % NB symbolsize is reduced by half the line width to get size exactly right
 % <x> <y> <symbolsize> <symbollinewidth> dotriangle -
@@ -593,7 +592,7 @@ lgraphdict begin
 
 % filledtriangle: show a filled triangle
 % - filledtriangle -
-/filledtriangle { symbolsize symbollinewidth dofilledtriangle } def
+/filledtriangle { xcurr ycurr trpoint symbolsize symbollinewidth dofilledtriangle } def
 
 
 %plog: like log only with a base, and protected from failing if <= 0
