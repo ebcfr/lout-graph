@@ -1040,7 +1040,7 @@ lgraphdict begin
       /logmaxv base maxv plog ceiling cvi def
 
       % if minv close to base, make it 1; reset minv and maxv
-      logminv 1 eq logmaxv 4 ge and { /logminv 0 def } if
+%      logminv 1 eq logmaxv 4 ge and { /logminv 0 def } if
       /minv base logminv exp def
       /maxv base logmaxv exp def
 

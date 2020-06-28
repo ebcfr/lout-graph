@@ -857,7 +857,8 @@ def	@GraphSetup
 
 		export pi e	sqrt abs ceiling floor truncate	round cos sin atan
 		  exp log rand "*" "/" idiv	mod	"-"	"-0" "-1" "-2" "-3"	"-4"
-		  "-5" "-6"	"-7" "-8" "-9" "-."	"+"	"="	"!=" "<" "<=" ">" ">="
+		  "-5" "-6"	"-7" "-8" "-9" "-."	"+"	"+0" "+1" "+2" "+3"	"+4"
+		  "+5" "+6"	"+7" "+8" "+9" "="	"!=" "<" "<=" ">" ">="
 		  not and xor or if	xloop yloop	zloop
 
 		def	@Data
@@ -903,6 +904,16 @@ def	@GraphSetup
 			def	"-7"								{	  "-7"		 }
 			def	"-8"								{	  "-8"		 }
 			def	"-9"								{	  "-9"		 }
+			def	"+0"								{	  "+0"		 }
+			def	"+1"								{	  "+1"		 }
+			def	"+2"								{	  "+2"		 }
+			def	"+3"								{	  "+3"		 }
+			def	"+4"								{	  "+4"		 }
+			def	"+5"								{	  "+5"		 }
+			def	"+6"								{	  "+6"		 }
+			def	"+7"								{	  "+7"		 }
+			def	"+8"								{	  "+8"		 }
+			def	"+9"								{	  "+9"		 }
 			def	"-."								{	  "-."		 }
 			def	"+"		 precedence	32 left	x right	y
 			{ x	@Case {	"" @Yield {	y }		else @Yield	{ x	y "add"	} }	 }

@@ -3,22 +3,110 @@
 @SysInclude {diag}
 @Include {graph}
 @SysInclude {cprint}
-@SysInclude {doc}
+@Include{ "style/report" }
 
 
-@Document
+@Report
 	@InitialFont {Times Base 10p}
-
+	@CoverSheet{No}
+	@Title{On the usage of the Lout "@Graph" package}
+	@Author{Eric Boucharé}
+	@DateLine{Yes}
+	@Abstract{This report introduces a modified Lout "@Graph" package with slighly enhanced tick and grid features, ensuring compatibility with the standard package provided with Lout. It explores, as well, through examples, how to draw complex graphes using an outer program. Many of the techniques presented here are already usable on the standard package.}
 //
-@Text @Begin
-@FullWidthRule
-@D @B{Lout Graph samples (modified "@Graph" -- 	@Date -- E.B.)}
-@FullWidthRule
-@DP @B{Ticks, labels and grid}
+@Section
+	@Title{Package installation and usage}
+@Begin
+@LP The modified package uses the same files as the standard package : @F{graph}, @F{graphf}, @F{graph.etc} and @F{graph.lpg}. They should be copied in the @F{include} directory of Lout as a drop replacement for the standard package or in the current direct as it is in the current example, or in a custom directory (though you will have to modify some paths in the files to reflect the location).
+@PP Depending on the location, to use the "@Graph" package, you will have to include the graph definitions from the system directory or a local directory.
+@PP The display of a graph is a matter of including
+@LP @RID @F @Verbatim{
+@Graph
+  <graph option parameters>
+{
+  @Data <data display options> {x1 y1 x2 y2 ...}
+}
+}
+@End @Section
+@Section
+	@Title{Styles, grid, ticks and labels}
+@Begin
+@LP Styles are setup withe the @I{style} option. Supported styles include @I{frame}, @I{axes}, @I{none}, @I{xygrid}, @I{xgrid}, @I{ygrid}.
+@PP @I{Frame} style enables the drawing of a frame around the graph, with ticks and labels. Two option parameters, @I{xextra} and @I{yextra}, control the size of a margin around the graph. It defaults to {Helvetica Base -1p} @Font{0.5c}.
+@PP @I{Axes} style enables the drawing of axes with ticks and labels defined by option values @I{xorigin} and @I{yorigin}. No frame is drawn.
+@PP @I{xgrid}, @I{ygrid} and @I{xygrid} styles enable the drawing of a grid vertically, horitontally or in both directions. A frame with ticks and labels is, as well, drawn around the graph.
+@PP @I{none} style does not draw anything: no frame, no axes, no grid, no ticks, no labels.
+@LP &1c @Graph 
+	style{frame} #xextra{0c} yextra{0c}
+{
+	@Data pairs{solid} color{red} {
+		@Include{"data/data1"}
+	}
+} &2c @Graph 
+	style{frame} xextra{0c} yextra{0c}
+{
+	@Data pairs{solid} color{red} {
+		@Include{"data/data1"}
+	}
+}
+@LP &3.5c @I{frame} style &5.5c @I{xextra} and @I{yextra} set to 0
+@LP &1c @Graph 
+	style{axes} xorigin{0} yorigin{0}
+{
+	@Data pairs{solid} color{red} {
+		@Include{"data/data1"}
+	}
+} &2c @Graph 
+	style{none}
+{
+	@Data pairs{solid} color{red} {
+		@Include{"data/data1"}
+	}
+}
+@LP &3.5c @I{axes} style &6.5c @I{none} style
+@LP &1c @Graph 
+	style{xygrid}
+{
+	@Data pairs{solid} color{red} {
+		@Include{"data/data1"}
+	}
+} &2c @Graph 
+	style{frame}
+	xlog{10} ylog{10}
+{
+#	@Data pairs{solid} color{black}{10 0.05 100 0.5 1000 0.05}
+	@Data pairs{solid} color{red} {
+		@Include{"data/data1"}
+	}
+}
+@LP &3.5c @I{xygrid} style &5c @I{frame} style @I{xlog} and @I{ylog} set
+@LP The above graphs are defined with the code (change commented options to draw the different graphs).
+@LP lines @Break @F {
+"@Graph"
+"  style{frame}"
+"# style{frame} xextra{0c} yextra{0c}"
+"# style{axes} xorigin{0} yorigin{0}"
+"# style{none}"
+"# style{xygrid}"
+"# xlog{10} ylog{10}"
+"{"
+"  @Data pairs{solid} color{red} {"
+"    @Include{\"data/data1\"}"
+"  }"
+"}"
+}
+@LP The "@Graph" symbol has also @I{width} and @I{height} options which allows you to set the size of the graph, actually, the area used to draw the curve. Lets's explore now the interaction between the ticks, labels and the grid with the following example:
+# There is also a @I{label} option which is a switch (@I{"yes/no"}) to enable the drawing of labels with the ticks, and a @I{grid} option
 @LP @F @RawVerbatim {
 @Graph
   style{axes} width{6c} height{7c}
   grid{no} label{yes}        # default values
+  objects {
+    @N at{6 0} margin{0.5f} @M{x}
+    @E at{0 16} margin{0.5f} @M{y=a x sup 2 + b x +c}
+    @N at{2 0} @M{"-" ` b over 2a}
+    @W at{0 -1} margin{0.5f} @M{"-" ` {b sup 2 - 4 a c} over {4a}}
+  }
   xorigin{0.0} yorigin{0.0}
   xticksep{2} xnsubtick{2}   # xticks{-2@ -1 0@ 1 2 () 3 4@ 5 6@}
   yticksep{4} ynsubtick{2}
@@ -32,7 +120,8 @@
   @Data color{blue} points{filledcircle} symbolsize{0.3f} { 2 -1 }
 }
 }
-@LP The above code doesn't show math objects appearing on the graph, but the source does.
+#@LP The above code doesn't show math objects appearing on the graph, but the source does.
+@DP @B{Display of a grid with ticks, subticks}
 @LP |1c @Graph
 	style{axes}
 	grid{no}
@@ -58,9 +147,7 @@
 	@Data color{blue} points{filledcircle} symbolsize{0.3f} {
 		2 -1
 	}
-}
-
-|2c @Graph
+} |2c @Graph
 	style{axes}
 	grid{yes}
 	width{6c} height{7c}
@@ -69,7 +156,6 @@
 		@E at{0 16} margin{0.5f} @M{y=a x sup 2 + b x +c}
 		@N at{2 0} @M{"-" ` b over 2a}
 		@W at{0 -1} margin{0.5f} @M{"-" ` {b sup 2 - 4 a c} over {4a}}
-		@E at{1 13} @I{"grid{yes}"}
 	}
 	xorigin{0.0} yorigin{0.0}
 	xticksep{2} xnsubtick{2}
@@ -87,7 +173,9 @@
 		2 -1
 	}
 }
-
+@LP &3c "style{"@I{axes}"} grid{"@I{no}"}" &5c "style{"@I{axes}"} grid{"@I{yes}"}"
+@DP Note the effect of @F{"xnsubtick{2}"} and @F{"ynsubtick{2}"} which divides each interval between two subsequent ticks to put a subtick (smaller than a tick, and without label). When a grid is drawn, it results in the drawing of a subgrid.
+@NP @B{Display of a grid with ticks, subticks}
 @LP |1c @Graph
 	style{axes}
 	grid{no}
@@ -97,12 +185,10 @@
 		@E at{0 16} margin{0.5f} @M{y=a x sup 2 + b x +c}
 		@S at{2 -4} margin{0.5f} @M{"-" ` b over 2a}
 		@W at{0 -1} margin{0.5f} @M{"-" ` {b sup 2 - 4 a c} over {4a}}
-		@E at{1 13} @I{"yorigin{-4}"}
-		@E at{1 12} @I{uncommenting xticks}
 	}
 	xorigin{0.0} yorigin{-4}
 	xticks{-2@ -1 0@ 1 2 () 3 4@ 5 6@}
-	xticksep{2} xnsubtick{2}
+#	xticksep{2} xnsubtick{2}
 	yticksep{4} ynsubtick{2}
 {
 	@Data pairs{dotted} linewidth{0.5p} {
@@ -127,8 +213,6 @@
 		@E at{0 16} margin{0.5f} @M{y=a x sup 2 + b x +c}
 		@N at{2 0} @M{"-" ` b over 2a}
 		@W at{0 -1} margin{0.5f} @M{"-" ` {b sup 2 - 4 a c} over {4a}}
-		@E at{1 13} @I{"grid{yes}"}
-		@E at{1 12} @I{"label{no}"}
 	}
 	xorigin{0.0} yorigin{0.0}
 	xticksep{2} xnsubtick{2}
@@ -146,31 +230,33 @@
 		2 -1
 	}
 }
+@LP &1c "style{"@I{axes}"} grid{"@I{no}"}" manual ticks and subticks &2.5c "style{"@I{axes}"} grid{"@I{yes}"} label{"@I{no}"}"
 
-@LP Ticks can be defined as usual with @I{xmin}, @I{xmax}, @I{xticksep} or nothing for automatic ticks or @I{xticks} for manual ticks. a Tick is associated with a label displayed wth the tick.
+@DP Ticks can be defined as usual with @I{xmin}, @I{xmax}, @I{xticksep} or nothing for automatic ticks or @I{xticks} for manual ticks. a tick is associated with a label displayed wth the tick.
 @PP The label is determined automatically according to the tick position on the axis. When defining ticks manually, for example
 @ID @F{"xticks{-2@ -1 0@ 1 2 (data1) 3 4@ 5 6@}"}
-`@F{"-2@"}' identifies the tick at position @I{-2}, the @F{"@"} indicating that the value {-2} is to be displayed. `@F{2 (data1)}' defines a tick at position @I{2} and with label @I{data1}. Using `@F{2 ()}' is a way to display a tick without any label.
+`@F{"-2@"}' identifies the tick at position @I{-2}, the @F{"@"} indicating that the value {-2} is to be displayed. `@F{2 (data1)}' defines a tick at position @I{2} and with label @I{data1}. Using `@F{2 ()}' is a way to display a tick without any label, allowing us, in this case, to replace the label `2' with the expression @M{- b over 2a}.
 @PP `@F{-1}' defines a subtick which appears smaller on the graph, and without any label. Subticks can be defined automatically using the @I{xnsubtick} which sets how many subranges would there be between two subsequent ticks.
 @PP Finally a @I{label} option, with possible values @I{yes}, @I{no}, @I{x} or @I{y}, controls globally if labels are displayed along the axis.
 
 @DP The @I{grid} option can take one the following values: @I{yes}, @I{no} (the default), @I{x} or @I{y}. It uses the ticks and subticks definitions allowing to have a coarse and a thiner grid. Hence, the graph
-@ID {{@F @RawVerbatim{
+@LP {@RID @F @RawVerbatim{
 @Graph
   style{none} width{5c} height{3c} grid{yes}
   xmin{0} xmax{5} xticksep{1} xnsubtick{5}
   ymin{0} ymax{3} yticksep{1} ynsubtick{5}
-{
-}}
-@LP can just display a 5x3~cm 1~cm-based grid with a 2~mm subgrid.}
+{}
+	}
+	@DP can just display a 5x3~cm 1~cm-based grid with a 2~mm subgrid.
+}
 	||0.5c @Graph
 		style{none} width{5c} height{3c} grid{yes} 
 		xmin{0} xmax{5} xticksep{1} xnsubtick{5}
 		ymin{0} ymax{3} yticksep{1} ynsubtick{5}
 	{
 	}
-}
-@LP Styles supported are: @I{frame}, @I{axes}, @I{none}, @I{xygrid}, @I{xgrid}, @I{ygrid}. Note that when the @I{grid} option is used, it bypassed the grid styles. It is worth to use the @I{grid} option instead of the grid styles.
+
+@LP Note that when the @I{grid} option is used, it bypass the grid styles. It is worth using the @I{grid} option instead of the grid styles.
 @DP An example with a log scale, now.
 @LP &1c @Graph 
 	width{7c} height{5c}
@@ -182,22 +268,22 @@
 	@Data pairs{solid} color{red} {
 		@Include{"data/data1"}
 	}
-} ||0.5c @F @RawVerbatim{
-@Graph 
-  width{7c} height{5c}
-  style{frame} xextra{0c} yextra{0c}
-  grid{yes}
-  xlog{10} ylog{10}
-{
-  @Data pairs{solid} color{black}{
-    10 0.05 100 0.5 1000 0.05
-  }
-  @Data pairs{solid} color{red} {
-    # include data from "data/data1"
-  }
+} ||0.5c lines @Break @F {
+"@Graph "
+"  width{7c} height{5c}"
+"  style{frame} xextra{0c} yextra{0c}"
+"  grid{yes}"
+"  xlog{10} ylog{10}"
+"{"
+"  @Data pairs{solid} color{black}{"
+"    10 0.05 100 0.5 1000 0.05"
+"  }"
+"  @Data pairs{solid} color{red} {"
+"    @Include{\"data/data1\"}"
+"  }"
+"}"
 }
-}
-@DP One has to note that, for surch a graph, the data have to be stored in a file that is generated by an external tool (computing environment, scripting languages, ...) and included. The data in the file must be put in `x y' tuples. @LP
+@DP A subgrid is automatically drawn between the log scale ticks. the subgrid cannot be changed. One has to note that, for such a graph, the data have to be stored in a file that is generated by an external tool (computing environment, scripting languages, ...) and included. The data in the file must be put in `x y' tuples. @LP
 @LP &1c @Graph 
 	width{7c} height{5c}
 	style{axes} xorigin{10} yorigin{1}
@@ -208,23 +294,25 @@
 	@Data pairs{solid} color{red} {
 		@Include{"data/data1"}
 	}
-} ||0.5c @F @RawVerbatim{
-@Graph width{7c} height{5c}
-  style{axes} xorigin{10} yorigin{1}
-  grid{yes}
-  xlog{10} ylog{10}
-{
-  @Data pairs{solid} color{black}{
-    10 0.05 100 0.5 1000 0.05
-  }
-  @Data pairs{solid} color{red} {
-    # include data from "data/data1"
-  }
+} ||0.5c @F lines @Break @F {
+"@Graph width{7c} height{5c}"
+"  style{axes} xorigin{10} yorigin{1}"
+"  grid{yes}"
+"  xlog{10} ylog{10}"
+"{"
+"  @Data pairs{solid} color{black}{"
+"    10 0.05 100 0.5 1000 0.05"
+"  }"
+"  @Data pairs{solid} color{red} {"
+"    @Include{\"data/data1\"}"
+"  }"
+"}"
 }
-}
-@LP Here, as well, a noteworthy feature of the @F{axes} style: when the x axis is at the top of the graph, the labels are displayed above the axis, else they appeare below the axis.
-@LP
-@DP @B{comb data vizualisation}
+@LP Here, as well, a noteworthy feature of the @F{axes} style: when the x axis is at the top of the graph, the labels are displayed above the axis, else they appear below the axis.
+@End @Section
+@Section
+	@Title{Comb data visualization}
+@Begin
 @LP &0.5c @Graph
 	style{axes} xorigin{0} yorigin{0} label{yes}
 	xticksep{2} xnsubtick{2}
@@ -293,8 +381,11 @@
 	}
 }
 
-@LP @DP @B{On the use of textures}
-@LP An example of using a texture to emphasize an area
+@End @Section
+@Section
+	@Title{On the use of textures}
+@Begin
+@LP An example on using a texture to emphasize an area
 @D @Graph
 	style{axes} width{10c} height{7c}
 	grid{yes}
@@ -323,7 +414,6 @@
 		}
 	}
 }
-@FullWidthRule
 @LP @F @Verbatim{
 @Graph
   style{axes} width{10c} height{7c}
@@ -356,10 +446,12 @@
   }
 }
 }
-@LP @FullWidthRule
 @DP We draw the curve two times. The first is to draw the textured area. Note that we terminate by adding points to close the surface. The second time, we draw the curve on the full @I{x} axis.
 @LP
-@DP @B{Using "@Diag" to add information onto a graph}
+@End @Section
+@Section
+	@Title{Using "@Diag" to add information onto a graph}
+@Begin
 @D @Diag{
 	@Graph
 		style{axes} width{10c} height{7c}
@@ -384,7 +476,6 @@
 	}
 	@Link arrow{both} arrowstyle{curvedsolid} backarrowstyle{curvedsolid} ylabel{@M{T tsub p}} from{A} to{B}
 }
-@FullWidthRule
 @LP @F @Verbatim {
 @Diag{
   @Graph
@@ -412,7 +503,6 @@
     ylabel{@M{T tsub p}} from{A} to{B}
 }
 }
-@LP @FullWidthRule
 @DP Arrows can't be added through the "@Graph" symbol, so we use the "@Diag" symbol, define the two points @I{A} and @I{B}, and use them to draw the arrow between thes two points.
 #@NP @D {
 #	@Graph style{frame} grid{yes} width{10c} height{7c} xextra{0} yextra{0}
@@ -436,13 +526,296 @@
 #		@Link arrow{yes} from{C} to{A}
 #	}
 #}
+@End @Section
+@Section
+	@Title{Defining a new function}
+@Begin
+@DP One can define new functions at the begining of the file
+@LP @F @Verbatim{
+import @Graph @Data
+def sinc
+  precedence 40
+  right x
+{
+  if cond{ abs{x} > 0.001 } then { sin{x * 180 / pi} / x} else { 1 }
+}
+}
+@DP Then graph the following function
+@LP @F @Verbatim{
+@Graph grid{yes} {
+  @Data pairs{solid} color{red} {
+    xloop from {-20} to {20} by { 0.1 } do
+    { x {abs{sinc{x*pi/5}}} }
+  }
+}
+}
 
+@D @Graph grid{yes} {
+  @Data pairs{solid} color{red} {
+    xloop from {-20} to {20} by { 0.1 } do
+    { x {abs{sinc{x *pi / 5}}} }
+  }
+}
 
+@End @Section
+@Section
+	@Title{Using the @I{retro} calculator to generate plots}
+@Begin
+@DP retro ( "https://github.com/ebcfr/retro/" @ExternalLink @F{"https://github.com/ebcfr/retro/"} ) is a small matrix calculator that can handle real and complex calculation. The program must be in the system research PATH variable.
+@DP Add the following definition at the begining of the file or in your @I{mydefs} file.
+@LP @CurveBox @HExpand @F @Verbatim{
+import @BasicSetup
+def @Calc
+  right x
+{
+  def @Filter {retro -q < @FilterIn > @FilterOut}
+  x
+}
+}
+
+@DP Some quick examples
+@DP @Calc {
+	load lout
+	T=0.01;f=1/T;t=-T:T/50:2*T;x=sin(2*pi*f*t);
+	xlabel="t [s]";
+	graph(grid="no",style="axes")
+	graphobj("N",[2*T,0],"@M{t ` [s]}")
+	graphobj("E",[0,1],"@M{y(t)}")
+	begingraph()
+	graph2d(t,x)
+	graph2d(t,0.5*cos(2*pi*f*t),color="blue")
+	endgraph()
+} ||1c {@F @Verbatim {
+@Calc {
+  load lout
+  T=0.01;f=1/T;t=-T:T/50:2*T;x=sin(2*pi*f*t);
+  xlabel="t [s]";
+  graph(grid="no",style="axes")
+  graphobj("N",[2*T,0],"@M{t ` [s]}")
+  graphobj("E",[0,1],"@M{y(t)}")
+  begingraph()
+  graph2d(t,x)
+  graph2d(t,0.5*cos(2*pi*f*t),color="blue")
+  endgraph()
+}
+}}
+@DP The sequence used by functions @F{graph}, @F{begingraph}, @F{graph2d}, and @F{endgraph} handle the generation of the Lout code for drawing the graph. The @F{graphobj} function is used to place objects on the graph.
+@DP Here's a decription of the API defined in the @F{lout.e} file.
+@LP @FullWidthRule
+@LP @F{graph(<parameters>)} |5ct {starts a graph: there may be multiple plots on the same graph. Extra named parameters are defined after the option parameters of the Lout "@Graph" symbol.
+	@BL
+	@LI{@I{width}, @I{height} [string] : size of the graph, ex: @F{"width=\"8c\""}}
+	@LI{@I{style} [string] : one of "\"frame\"", "\"axes\"", ... ex: @F{"style=\"axes\""}}
+	@LI{@I{xextra}, @I{yextra} [string] : the extra space around the graph,}
+	@LI{@I{xorigin}, @I{yorigin} [number] : the location of the origin of axes,}
+	@LI{@I{xlog}, @I{ylog} ["0/1"] : boolean switch. Only 10-based logscales supported,}
+	@LI{@I{xticks}, @I{xticksep}, @I{xnsubtick}, @I{yticks}, @I{yticksep}, @I{ynsubtick}: provide tick and subtick information,}
+	@LI{@I{color} [string] : global setting for color,}
+	@LI{@I{xlabel}, @I{ylabel} [string] : labels for the x and y axes.}
+	@EL
+}
+@LP @F{graphobj(dir,point,obj)} |5ct {Place the Lout object @I{obj} described by a string at the location @I{point} using the direction @I{dir}.
+
+}
+@LP @F{begingraph()} |5ct {begins the plot description}
+@LP @F{endgraph()} |5ct {ends the plot description}
+@LP @F{graph2d(x,[y,[<parameters>]])} |5ct {plots a curve using real vectors or matrix @I{x} and @I{y}, or a complex vector @I{x} (then plots real and imaginary part of @I{x}). If @I{x} and @I{y} are matrices, each line of the matrices define a curve to be displayed. Extra named parameters:
+	@BL
+	@LI{@I{pairs}, @I{linewidth} [string] : Lout pairs and linewidth options, ex: @F{"linewidth=\"1p\""},}
+	@LI{@I{points}, @I{symbolsize} [string] : Lout points and symbolsize options, ex: @F{"symbolsize=\"0.3f\""}}
+	@LI{@I{color} [string] or [real vector] : set the color of maps a color defined by the index in the vector to each curve.}
+	@EL
+}
+@LP @FullWidthRule
+@DP Another example. Graphing the Bode Diagrams @M{abs{T(j omega)}} and @M{arg`T(j omega)} where @M{T(j omega)}
+is the frequency response of a second order band-pass system for which the transfer function is
+@D @Math{T(s) = {T tsub i ` s over omega sub 0} over {1 + 2m ` s over omega sub 0 + s sup 2 over omega supp 2 on 0}}
+and for différent values of the damping factor, is a quite simple program using the vector language of @I{retro}.
+@D @OneCol @Calc {
+	load lout
+	f=10^(1:0.01:5);
+	Ti=1;f0=1k;m=[4,1,1/sqrt(2),0.5,0.05]';j=1i;
+	T=Ti*j*f/f0/(1+2*m*j*f/f0+(j*f/f0)^2);
+	ylabel="@M{abs{T(j 2 pi f)}}";
+	graph(width="10c",grid="yes",xlog="yes",ylog="yes",ylabel=ylabel,linewidth="2p")
+	begingraph()
+	graph2d([10,1k,100k],[1e-2,1,1e-2],color="black")
+	graph2d(f,abs(T),color=1+(1:length(m)))
+	endgraph
+	"/2f"
+	xlabel="f [Hz]";
+	ylabel="@M{arg ` T(j 2 pi f)``[degree]}";
+	graph(width="10c",grid="yes",xlog="yes",yticks="-135@ -90@ -45@ 0@ 45@ 90@ 135@",xlabel=xlabel,ylabel=ylabel)
+	begingraph()
+	graph2d(f,arg(T)/pi*180,color=1+(1:length(m)))
+	endgraph
+}
+@LP @F @Verbatim {
+@Calc {
+  load lout
+  f=10^(1:0.01:5);
+  Ti=1;f0=1k;m=[4,1,1/sqrt(2),0.5,0.05]';j=1i;
+  T=Ti*j*f/f0/(1+2*m*j*f/f0+(j*f/f0)^2);
+  ylabel="@M{abs{T(j 2 pi f)}}";
+  graph(width="10c",grid="yes",xlog="yes",ylog="yes",ylabel=ylabel)
+  begingraph()
+  graph2d([10,1k,100k],[1e-2,1,1e-2],color="black")
+  graph2d(f,abs(T),color=1+(1:length(m)))
+  endgraph()
+  "/2f"
+  xlabel="f [Hz]";
+  ylabel="@M{arg ` T(j 2 pi f)``[degree]}";
+  graph(width="10c",grid="yes",xlog="yes", ..
+    yticks="-135@ -90@ -45@ 0@ 45@ 90@ 135@",xlabel=xlabel,ylabel=ylabel)
+  begingraph()
+  graph2d(f,arg(T)/pi*180,color=1+(1:length(m)))
+  endgraph()
+}
+}
+@DP One can note there are two graphes with, between them, the vertical alignment symbol @F{"/2f"} which set the second graph at a distance of 2 times the current font height beneath the first one.
+@DP For what it's worth, the @I{retro} calculator can also be used to inline calculations and render the dynamic content.
+@D @Math{@Calc{
+	function lmat(A)
+	    "ppmatrix{"
+		for i=1 to rows(A)
+			" row "
+		    for j=1 to cols(A)
+		    	" rcol {",A[i,j],"}"
+		    end
+		end
+		"}"
+		return A;
+	endfunction
+	
+	A=[1,1,2;3,4,5;6,7,8];
+	format("STD",[0,3]);
+	lmat(A);" sup {-1} ^= `" lmat(inv(A));
+	"/0.5f"
+	format("FIXED",[0,2]);
+	lmat(A);" sup {-1}  ^= `" lmat(inv(A));
+}}
+@DP Here's the code
+@LP @F @Verbatim {
+@Math { @Calc {
+  function lmat(A)
+    "ppmatrix{"
+    for i=1 to rows(A)
+      " row "
+      for j=1 to cols(A)
+        " rcol {",A[i,j],"}"
+      end
+    end
+    "}"
+    return A;
+  endfunction
+
+  A=[1,1,2;3,4,5;6,7,8];
+  format("STD",[0,3]);
+  lmat(A);" sup {-1} ^= `" lmat(inv(A));
+  "/0.5f"
+  format("FIXED",[0,2]);
+  lmat(A);" sup {-1}  ^= `" lmat(inv(A));
+}}
+
+}
+@LP
+@LP
+@LP
+@LP
+@LP
+@End @Section
+@Section
+	@Title{Using a scripting language to generate plot points}
+@Begin
+@LP The same principle as above can be used to make a helper program to do calculations and generate the Lout code to draw the graphs. Here's an example for the @I{python} scripting language.
+@DP Define a "@Python" symbol
+@LP @CurveBox @HExpand @F @Verbatim {
+import @BasicSetup
+def @Python
+    right x
+{
+    def @Filter {python < @FilterIn > @FilterOut}
+    x
+}
+}
+@DP {Calling "@Python"}:
+@DP @F @Verbatim{
+@I @Python{
+# my python code
+print("Hello World!")
+for i in range(0,5):
+    print(i)
+}
+}
+@LP which produces:
+@I @Python{
+# my python code
+print("Hello World!")
+for i in range(0,5):
+    print(i)
+}
+
+@DP {Using python to plot a graph}:
+
+@LP &1c @Graph 
+	width{7c} height{5c}
+	style{frame} xextra{0c} yextra{0c}
+	grid{yes} label{yes}
+	xlog{10} ylog{10}
+{
+	@Data pairs{solid} color{black}{10 0.05 100 0.5 1000 0.05}
+	@Data pairs{solid} color{red} {
+		@Python {
+from numpy import *
+j=complex(0,1)
+# define the frequency vector
+f=10**linspace(1,3,101)
+m=0.25;f0=100
+# Calculate the magnitude of the transfer function
+T=abs(1/(1+j/(2*m)*(f/f0-f0/f)))
+# print the points to stdout
+for i in range(f.size):
+    print("%g %g " % (f[i],T[i]))
+
+		}
+	}
+} ||0.5c @F @RawVerbatim{
+@Graph 
+  width{7c} height{5c}
+  style{frame} xextra{0c} yextra{0c}
+  grid{yes} label{yes}
+  xlog{10} ylog{10}
+{
+  @Data pairs{solid} color{black}{
+    10 0.05 100 0.5 1000 0.05
+  }
+  @Data pairs{solid} color{red} {
+    @Python {
+from numpy import *
+j=complex(0,1)
+# define the frequency vector
+f=10**linspace(1,3,51)
+m=0.25;f0=100
+# Calculate the magnitude of the
+# transfer function
+T=abs(1/(1+j/(2*m)*(f/f0-f0/f)))
+# print the points to stdout
+for i in range(f.size):
+  print("%g %g " % (f[i],T[i]))
+    }
+  }
+}
+}
+@DP Python executes the specified code and returns the result on its standard output (the calculated points) back to Lout.
+@End @Section
+@Section
+	@Title{Lout User's Guide examples}
+@Begin
 ################# Lout's User's Guide examples ###################
-@NP @FullWidthRule
-@D @B{Lout User's Guide examples}
-@FullWidthRule
-@DP For memory, the figures used in the User's Guide rendered by the modified module.
+#@NP @FullWidthRule
+#@D @B{Lout User's Guide examples}
+#@FullWidthRule
+@DP For memory, the figures used in the User's Guide rendered by the modified module are unchanged.
 @CD @Graph
     abovecaption { New South Wales road deaths, 1960--1990
 (fatalities per 100 million vehicle km) }
@@ -737,7 +1110,7 @@ students }
     { 1720 10000  1730 11500  1740 12654  1750 18202  1760 23750  1770 34583 }
 
 }
+@End @Section
 
 ##########################################################
 
-@End @Text

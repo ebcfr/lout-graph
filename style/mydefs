@@ -1,0 +1,33 @@
+extend @Math
+macro ppmatrix {matrix atleft{blpar} atright{brpar}}
+
+extend @Math
+macro abs {matrix userow{yes} atleft{bar} atright{bar}}
+
+import @Math
+def j {{Base} @Font {"j"}}
+
+import @Graph @Data
+def sinc
+  precedence 40
+  right x
+{
+  if cond{ abs{x} > 0.001 } then { sin{x * 180 / pi} / x} else { 1 }
+}
+
+
+import @BasicSetup
+def @Calc
+	right x
+{
+	def @Filter {retro -q < @FilterIn > @FilterOut}
+	x
+}
+
+import @BasicSetup
+def @Python
+    right x
+{
+    def @Filter {python < @FilterIn > @FilterOut}
+    x
+}
