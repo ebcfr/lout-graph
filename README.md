@@ -15,10 +15,3 @@ The comands used to generate the example document are
 lout ex_doc >ex_doc.ps
 ps2pdf -sPAPERSIZE=a4 -dPDFSETTINGS=/prepress -dAutoRotatePages=/All ex_doc.ps
 ```
-
-The ex_python document shows how python can be used to generate the points to plot the graph. You must have python and the numpy library installed in your PATH.
-
-```
-lout ex_doc >ex_python.ps
-ps2pdf -sPAPERSIZE=a4 -dPDFSETTINGS=/prepress -dAutoRotatePages=/All ex_python.ps
-```

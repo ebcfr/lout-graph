@@ -25,7 +25,6 @@
 #@SysInclude { graphf }
 @Include { graphf }
 
-
 ###############################################################################
 #                                                                             #
 #  The @GraphSetup @Use clause                                                #
